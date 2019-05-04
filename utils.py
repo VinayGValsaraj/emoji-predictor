@@ -1,3 +1,5 @@
+import csv
+
 class Indexer(object):
     """
     Bijection between objects and integers starting at 0. Useful for mapping
@@ -61,3 +63,30 @@ class Indexer(object):
             self.objs_to_ints[object] = new_idx
             self.ints_to_objs[new_idx] = object
         return self.objs_to_ints[object]
+
+
+
+def get_indexer():
+    indexer = Indexer()
+    with open('indexer.csv', 'r') as f:
+        reader = csv.reader(f, delimiter='|')
+        for row in reader:
+            indexer.add_and_get_index(row[0])
+
+    return indexer
+
+
+class DataPoint():
+    def __init__(self, text, label):
+        self.text = text
+        self.label = label
+
+def get_data_from_csv():
+    dataset = []
+
+    with open('cleaned_dataset.csv', 'r') as f:
+        reader = csv.reader(f, delimiter='|')
+        for row in reader:
+            dataset.append(DataPoint(row[1], int(row[0])))
+
+    return dataset
