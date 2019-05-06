@@ -85,7 +85,7 @@ class DataPoint():
 def get_data_from_csv():
     dataset = []
 
-    with open('cleaned_dataset.csv', 'r') as f:
+    with open('sampled_dataset.csv', 'r') as f:
         reader = csv.reader(f, delimiter='|')
         for row in reader:
             dataset.append(DataPoint(row[1], int(row[0])))
