@@ -67,12 +67,16 @@ class Indexer(object):
 
 
 
-def get_indexer():
+def get_indexer(d_path):
     indexer = Indexer()
-    with open('indexer.csv', 'r') as f:
+    with open(d_path, 'r') as f:
         reader = csv.reader(f, delimiter='|')
+        temp = [""] * 15
         for row in reader:
-            indexer.add_and_get_index(row[0])
+            temp[int(row[1])] = row[0]
+            
+        for emoji in temp:
+            indexer.add_and_get_index(emoji)
 
     return indexer
 
@@ -82,30 +86,30 @@ class DataPoint():
         self.text = text
         self.label = label
 
-def get_train_data_from_csv():
+def get_train_data_from_csv(d_path):
     dataset = []
 
-    with open('data/train.csv', 'r') as f:
+    with open(d_path, 'r') as f:
         reader = csv.reader(f, delimiter='|')
         for row in reader:
             dataset.append(DataPoint(row[1], int(row[0])))
 
     return dataset
 
-def get_dev_data_from_csv():
+def get_dev_data_from_csv(d_path):
     dataset = []
 
-    with open('data/dev.csv', 'r') as f:
+    with open(d_path, 'r') as f:
         reader = csv.reader(f, delimiter='|')
         for row in reader:
             dataset.append(DataPoint(row[1], int(row[0])))
 
     return dataset
 
-def get_test_data_from_csv():
+def get_test_data_from_csv(d_path):
     dataset = []
 
-    with open('data/test.csv', 'r') as f:
+    with open(d_path, 'r') as f:
         reader = csv.reader(f, delimiter='|')
         for row in reader:
             dataset.append(DataPoint(row[1], int(row[0])))

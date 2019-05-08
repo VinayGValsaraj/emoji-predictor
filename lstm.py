@@ -34,9 +34,8 @@ class RNNClassifier(ConsonantVowelClassifier):
 class recurrentNeuralNetwork(nn.Module):
     def __init__(self, num_classes, vocab_size, indexer, emb_dim=32, n_hidden_units=10):
         super(recurrentNeuralNetwork, self).__init__()
-        embeddings_path = "data/glove.twitter.27B.25d.txt"
+        embeddings_path = "data/glove.twitter.27B.200d.txt"
         self.word_embeddings = read_word_embeddings(embeddings_path)
-        emb_dim = 300
         #self.word_embeddings = nn.Embedding(vocab_size, emb_dim)
         self.lstm = nn.LSTM(emb_dim, n_hidden_units)
         self.n_hidden_units = n_hidden_units
@@ -100,11 +99,17 @@ def train_rnn_classifier(train_data, vocab_size, indexer):
     """
     start = time.time()
 
-    embedding_size = 50
-    hidden_units = 50
+    embedding_size = 200
+    hidden_units = 100
     num_classes = len(indexer)
-    num_epochs = 20
+    num_epochs = 5
     initial_learning_rate = 0.001
+
+    print("embedding size", embedding_size)
+    print("hidden units", hidden_units)
+    print("num epochs", num_epochs)
+    print("learning rate", initial_learning_rate)
+    print()
     
     rnn = recurrentNeuralNetwork(num_classes, vocab_size, indexer, emb_dim=embedding_size, n_hidden_units=hidden_units)
     optimizer = optim.Adam(rnn.parameters(), lr=initial_learning_rate)
@@ -151,14 +156,14 @@ def print_evaluation(test_data, model):
 
 def main():
 
-    train_data = get_train_data_from_csv()
-    shuffle(train_data)
-    #train_data = train_data[0:50000]
+    train_data = get_train_data_from_csv('data/train_cont.csv')
+    #shuffle(train_data)
+    train_data = train_data[0:50000]
     print('read train data from csv')
 
-    dev_data = get_dev_data_from_csv()
-    shuffle(train_data)
-    #dev_data = dev_data[0:10000]
+    dev_data = get_dev_data_from_csv('data/dev_cont.csv')
+    #shuffle(dev_data)
+    dev_data = dev_data[0:10000]
     print('read dev data from csv')
 
     print('len of training data:', len(train_data))
@@ -167,7 +172,7 @@ def main():
     vocab_size = get_vocab_size(train_data)
     print('calculated vocab size:', vocab_size)
 
-    indexer = get_indexer()
+    indexer = get_indexer('indexer_cont.csv')
     print('read indexer from csv')
 
     model = train_rnn_classifier(train_data, vocab_size, indexer)
