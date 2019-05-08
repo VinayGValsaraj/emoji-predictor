@@ -82,10 +82,30 @@ class DataPoint():
         self.text = text
         self.label = label
 
-def get_data_from_csv():
+def get_train_data_from_csv():
     dataset = []
 
-    with open('sampled_dataset.csv', 'r') as f:
+    with open('data/train.csv', 'r') as f:
+        reader = csv.reader(f, delimiter='|')
+        for row in reader:
+            dataset.append(DataPoint(row[1], int(row[0])))
+
+    return dataset
+
+def get_dev_data_from_csv():
+    dataset = []
+
+    with open('data/dev.csv', 'r') as f:
+        reader = csv.reader(f, delimiter='|')
+        for row in reader:
+            dataset.append(DataPoint(row[1], int(row[0])))
+
+    return dataset
+
+def get_test_data_from_csv():
+    dataset = []
+
+    with open('data/test.csv', 'r') as f:
         reader = csv.reader(f, delimiter='|')
         for row in reader:
             dataset.append(DataPoint(row[1], int(row[0])))
@@ -144,6 +164,6 @@ def read_word_embeddings(embeddings_file):
                 vectors.append(np.zeros(vector.shape[0]))
             vectors.append(vector)
     f.close()
-    print("Read in " + repr(len(word_indexer)) + " vectors of size " + repr(vectors[0].shape[0]))
+    #print("Read in " + repr(len(word_indexer)) + " vectors of size " + repr(vectors[0].shape[0]))
     # Turn vectors into a 2-D numpy array
     return WordEmbeddings(word_indexer, np.array(vectors))
