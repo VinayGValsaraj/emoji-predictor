@@ -156,15 +156,13 @@ def print_evaluation(test_data, model):
 
 def main():
 
-    train_data = get_train_data_from_csv('data/train_cont.csv')
+    train_data = get_train_data_from_csv('data/train_15_ds.csv')
     #shuffle(train_data)
     train_data = train_data[0:50000]
-    print('read train data from csv')
 
-    dev_data = get_dev_data_from_csv('data/dev_cont.csv')
+    dev_data = get_dev_data_from_csv('data/dev_15_ds.csv')
     #shuffle(dev_data)
     dev_data = dev_data[0:10000]
-    print('read dev data from csv')
 
     print('len of training data:', len(train_data))
     print('len of dev data:', len(dev_data))
@@ -172,8 +170,7 @@ def main():
     vocab_size = get_vocab_size(train_data)
     print('calculated vocab size:', vocab_size)
 
-    indexer = get_indexer('indexer_cont.csv')
-    print('read indexer from csv')
+    indexer = get_indexer('indexer_15_dups.csv')
 
     model = train_rnn_classifier(train_data, vocab_size, indexer)
 

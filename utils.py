@@ -78,6 +78,7 @@ def get_indexer(d_path):
         for emoji in temp:
             indexer.add_and_get_index(emoji)
 
+    print('read indexer from:', d_path)
     return indexer
 
 
@@ -94,6 +95,8 @@ def get_train_data_from_csv(d_path):
         for row in reader:
             dataset.append(DataPoint(row[1], int(row[0])))
 
+    print('read train data from:', d_path)
+
     return dataset
 
 def get_dev_data_from_csv(d_path):
@@ -104,6 +107,7 @@ def get_dev_data_from_csv(d_path):
         for row in reader:
             dataset.append(DataPoint(row[1], int(row[0])))
 
+    print('read dev data from:', d_path)
     return dataset
 
 def get_test_data_from_csv(d_path):
@@ -114,6 +118,7 @@ def get_test_data_from_csv(d_path):
         for row in reader:
             dataset.append(DataPoint(row[1], int(row[0])))
 
+    print('read test data from:', d_path)
     return dataset
 
 class WordEmbeddings:
