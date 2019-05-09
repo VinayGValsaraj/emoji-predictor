@@ -102,7 +102,7 @@ def train_rnn_classifier(train_data, vocab_size, indexer):
     embedding_size = 200
     hidden_units = 100
     num_classes = len(indexer)
-    num_epochs = 5
+    num_epochs = 10
     initial_learning_rate = 0.001
 
     print("embedding size", embedding_size)
@@ -156,11 +156,11 @@ def print_evaluation(test_data, model):
 
 def main():
 
-    train_data = get_train_data_from_csv('data/train_15_ds.csv')
+    train_data = get_train_data_from_csv('data/train_15_dns.csv')
     #shuffle(train_data)
     train_data = train_data[0:50000]
 
-    dev_data = get_dev_data_from_csv('data/dev_15_ds.csv')
+    dev_data = get_dev_data_from_csv('data/dev_15_dns.csv')
     #shuffle(dev_data)
     dev_data = dev_data[0:10000]
 
