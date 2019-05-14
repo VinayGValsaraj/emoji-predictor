@@ -71,7 +71,7 @@ def get_indexer(d_path):
     indexer = Indexer()
     with open(d_path, 'r') as f:
         reader = csv.reader(f, delimiter='|')
-        temp = [""] * 15
+        temp = [""] * 30
         for row in reader:
             temp[int(row[1])] = row[0]
             
