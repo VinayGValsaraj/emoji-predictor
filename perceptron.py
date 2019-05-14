@@ -24,6 +24,7 @@ class PerceptronClassifier():
         return predicted_class
 
     def train(self, train_exs):
+        print (len(train_exs))
         for ex in train_exs:
             for word in ex.text:
                 if not self.feature_extractor.indexer.contains(word):
@@ -31,7 +32,7 @@ class PerceptronClassifier():
         self.weight_vectors = [np.zeros(len(self.feature_extractor.indexer)) for _ in range(self.num_classes)]
         epochs = 1
         for i in range(epochs):
-            print ("epoch: i")
+            print ("epoch: ", i)
             for ex in train_exs:
                 feature_vector = self.feature_extractor.extract_features(ex)
                 predicted_class = self.predict(ex)
@@ -57,9 +58,9 @@ class FeatureExtractor():
         return feature_vector
 
 
-indexer = get_indexer('data/indexer_cont')
 filename = sys.argv[1]
 
+indexer = get_indexer('data/indexer_' + filename)
 train_set = get_train_data_from_csv('data/train_' + filename)
 dev_set = get_dev_data_from_csv('data/dev_' + filename)
 test_set = get_test_data_from_csv('data/test_' + filename)
