@@ -1,6 +1,7 @@
 from utils import Indexer, get_indexer, get_train_data_from_csv, get_dev_data_from_csv, get_test_data_from_csv
 import numpy as np
 from random import shuffle
+import sys
 
 from sklearn.metrics import classification_report, accuracy_score
 
@@ -28,9 +29,9 @@ class PerceptronClassifier():
                 if not self.feature_extractor.indexer.contains(word):
                     self.feature_extractor.indexer.add_and_get_index(word)
         self.weight_vectors = [np.zeros(len(self.feature_extractor.indexer)) for _ in range(self.num_classes)]
-        epochs = 5
+        epochs = 1
         for i in range(epochs):
-            print (i)
+            print ("epoch: i")
             for ex in train_exs:
                 feature_vector = self.feature_extractor.extract_features(ex)
                 predicted_class = self.predict(ex)
@@ -56,12 +57,13 @@ class FeatureExtractor():
         return feature_vector
 
 
-indexer = get_indexer('indexer')
-train_set = get_train_data_from_csv('')
-dev_set = get_dev_data_from_csv('')
-test_set = get_test_data_from_csv('')
+indexer = get_indexer('data/indexer_cont')
+filename = sys.argv[1]
 
-# print (len(dataset))
+train_set = get_train_data_from_csv('data/train_' + filename)
+dev_set = get_dev_data_from_csv('data/dev_' + filename)
+test_set = get_test_data_from_csv('data/test_' + filename)
+
 p = PerceptronClassifier(indexer, FeatureExtractor())
 p.train(train_set)
 
@@ -70,14 +72,19 @@ y_true = []
 for ex in dev_set:
     y_true.append(ex.label)
     y_pred.append(p.predict(ex))
-    # num_total += 1
-    # if p.predict(ex) == ex.label:
-    #     num_correct += 1
-print ("Dev Set Results: ")
-classification_report(y_true, y_pred)
-accuracy_score(y_true, y_pred)
 
-# print ("Test Set Results: ")
+print ("Dev Set Results: ")
+print ("Accuracy: ", accuracy_score(y_true, y_pred))
+print (classification_report(y_true, y_pred))
+
+y_pred = []
+y_true = []
+print ("Test Set Results: ")
+for ex in dev_set:
+    y_true.append(ex.label)
+    y_pred.append(p.predict(ex))
+print ("Accuracy: ", accuracy_score(y_true, y_pred))
+print (classification_report(y_true, y_pred))
 
 # print("Accuracy: %i / %i = %f" % (num_correct, num_total, float(num_correct) / num_total))
 
