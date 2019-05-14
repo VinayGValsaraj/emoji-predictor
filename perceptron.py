@@ -1,8 +1,8 @@
-import csv
-from utils import Indexer, get_indexer, get_data_from_csv, DataPoint
+from utils import Indexer, get_indexer, get_train_data_from_csv, get_dev_data_from_csv, get_test_data_from_csv
 import numpy as np
 from random import shuffle
 
+from sklearn.metrics import classification_report, accuracy_score
 
 class PerceptronClassifier():
     def __init__(self, label_indexer, feature_extractor):
@@ -56,22 +56,28 @@ class FeatureExtractor():
         return feature_vector
 
 
-indexer = get_indexer()
-dataset = get_data_from_csv()
+indexer = get_indexer('indexer')
+train_set = get_train_data_from_csv('')
+dev_set = get_dev_data_from_csv('')
+test_set = get_test_data_from_csv('')
 
-train_exs = dataset[:1100000]
-test_exs = dataset[1100000:]
 # print (len(dataset))
 p = PerceptronClassifier(indexer, FeatureExtractor())
-p.train(train_exs)
+p.train(train_set)
 
-num_correct = 0
-num_total = 0
-for ex in test_exs:
-    num_total += 1
-    if p.predict(ex) == ex.label:
-        num_correct += 1
+y_pred = []
+y_true = []
+for ex in dev_set:
+    y_true.append(ex.label)
+    y_pred.append(p.predict(ex))
+    # num_total += 1
+    # if p.predict(ex) == ex.label:
+    #     num_correct += 1
+print ("Dev Set Results: ")
+classification_report(y_true, y_pred)
+accuracy_score(y_true, y_pred)
 
-print("Accuracy: %i / %i = %f" % (num_correct, num_total, float(num_correct) / num_total))
+# print ("Test Set Results: ")
 
-# train_perceptron(train_exs, FeatureExtractor())
+# print("Accuracy: %i / %i = %f" % (num_correct, num_total, float(num_correct) / num_total))
+

@@ -21,9 +21,9 @@ indexer = get_indexer('indexer_15_dups.csv')
 word_indexer = Indexer()
 word_indexer.add_and_get_index("UNK")
 
-train_data = get_train_data_from_csv('data/train_15_ds.csv')[0:100]
-dev_data = get_dev_data_from_csv('data/dev_15_ds.csv')[:20]
-test_data = get_test_data_from_csv('data/test_15_ds.csv')[0:20]
+train_data = get_train_data_from_csv('data/train_15_ds.csv')[0:1000]
+dev_data = get_dev_data_from_csv('data/dev_15_ds.csv')[:200]
+test_data = get_test_data_from_csv('data/test_15_ds.csv')[0:200]
 
 X_train = []
 Y_train = []
